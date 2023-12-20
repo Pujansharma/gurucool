@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <title>Sign-In</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="./style/login.css">
+</head>
+<style>
+  .error {
+  border: 1px solid red; /* Change border color to red for emphasis */
+}span.required {
+  color: red; /* Change asterisk color to red */
+  margin-left: 8px; /* Add some space between label text and the asterisk */
+}
+</style>
+
+<body>
+
+  <!-- ***********************************************Signin************************ -->
+  <div class="sign-in-container">
+    <div class="sign-in-heading">
+      <h3>Sign in to your account</h3>
+      <p id="our-brand">Our brand new site is live. Please create a new account to explore this experience.</p>
+    </div>
+    <div class="login-register">
+      <div class="login">
+        <h2>Login</h2>
+        <p>If you have an account, please sign in with your email address.</p>
+        <label for="email">Email</label><br>
+        <input type="text" id="email-login"><br>
+        <label for="pass">Password</label><br>
+        <input type="password" id="pass-login"><br>
+        <button id="sign-in-btn" onclick="login()">SIGN IN</button>
+        <!-- <p>Forget your password ?</p> -->
+      </div>
+      <div class="register">
+        <h2>Create Customer</h2>
+        <p>Creating an account has many benefits: check out faster, keep more than one address, track orders, and more.</p>
+        <form id="form">
+          <label for="firstName">First Name <span class="required">*</span></label><br>
+          <input id="firstName" type="text"><br>
+          <label for="lastName">Last Name <span class="required">*</span></label><br>
+          <input type="text" id="lastName"><br>
+          <label for="email">Email <span class="required">*</span></label><br>
+          <input type="text" id="email"><br>
+          <label for="password">Password <span class="required">*</span></label><br>
+          <input type="password" id="pass"><br>
+        </form>
+        <button id="submit-btn" onclick="signup()">SUBMIT</button>
+      </div>
+    </div>
+  </div>
+  <!-- ***********************************FOOTER*************************************** -->
+
+
+</body>
+
+</html>
+
+
+<script>
+  const signup = async () => {
+  const firstNameInput = document.getElementById("firstName");
+  const lastNameInput = document.getElementById("lastName");
+  const emailInput = document.getElementById("email");
+  const passwordInput = document.getElementById("pass");
+  
+  const firstname = firstNameInput.value;
+  const lastname = lastNameInput.value;
+  const email = emailInput.value;
+  const password = passwordInput.value;
+
+  if (!firstname || !lastname || !email || !password) {
+    if (!firstname) {
+      firstNameInput.classList.add("error"); // Add 'error' class to highlight empty first name field
+    }
+    if (!lastname) {
+      lastNameInput.classList.add("error"); // Add 'error' class to highlight empty last name field
+    }
+    if (!email) {
+      emailInput.classList.add("error"); // Add 'error' class to highlight empty email field
+    }
+    if (!password) {
+      passwordInput.classList.add("error"); // Add 'error' class to highlight empty password field
+    }
+
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Please fill in all fields!',
+    });
+    return;
+  }
+
+  // Clear any previous 'error' class if fields are not empty
+  firstNameInput.classList.remove("error");
+  lastNameInput.classList.remove("error");
+  emailInput.classList.remove("error");
+  passwordInput.classList.remove("error");
+
+  const response = await fetch("https://successful-jumper-goat.cyclic.app/register", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ firstname, lastname, email, password }),
+  });
+        if (response.status === 200) {
+          // Registration successful
+          Swal.fire(
+          'Register',
+          'Successful',
+          'success'
+        )
+        setTimeout(() => {
+          window.location.href = "#"
+        }, 3000);
+        localStorage.setItem("username", payload.firstname);
+        localStorage.setItem("email", payload.email)
+      
+          // You can redirect the user to the login page or perform other actions
+      } else {
+          // Registration failed
+          Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Incorrect credentials!',
+            })
+            setTimeout(() => {
+              window.location.href = "#";
+            }, 3000);
+      }
+      }
+     
+  
+
+  const login = async () => {
+  const emailInput = document.getElementById("email-login");
+  const passwordInput = document.getElementById("pass-login");
+  const email = emailInput.value;
+  const password = passwordInput.value;
+
+  if (!email || !password) {
+    if (!email) {
+      emailInput.classList.add("error"); // Add 'error' class to highlight empty email field
+    }
+    if (!password) {
+      passwordInput.classList.add("error"); // Add 'error' class to highlight empty password field
+    }
+
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Please fill in all fields!',
+    });
+    return;
+  }
+
+  emailInput.classList.remove("error");
+  passwordInput.classList.remove("error");
+
+  const response = await fetch("https://successful-jumper-goat.cyclic.app/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, password }),
+  });
+
+        if (response.status === 200) {
+          // Login successful
+          const data = await response.json();
+          const token = data.token;
+          localStorage.setItem("token", token);
+         
+            const Toast = Swal.mixin({
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: true,
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }
+            })
+
+            Toast.fire({
+              icon: 'success',
+              title: 'Signed in successfully'
+            })
+            setTimeout(() => {
+              window.location.href = ("./dashboard.html")
+            }, 3000);
+          
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Incorrect credentials!',
+            })
+            setTimeout(() => {
+              window.location.href = "#";
+            }, 3000);
+      } 
+      }
+
+      
+  // }
+</script>

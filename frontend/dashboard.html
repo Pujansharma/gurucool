@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">\
+  <link rel="stylesheet" href="./style/fotter.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script> -->
+  <!-- <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script> -->
+
+  <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+  <style>
+    /* Your existing styles */
+  
+    /* Additional styles for the spiral */
+    .spiral-container {
+      display: none; /* Hide by default */
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      position: fixed;
+      z-index: -1;
+    }
+
+    .spiral {
+      display: none; /* Hide by default */
+      position: absolute;
+      width: 40px; /* Increase the size */
+      height: 40px; /* Increase the size */
+      background-color: blue; /* Set a more contrasting color */
+      border-radius: 50%;
+      z-index: 999; 
+    }.parallel-elements {
+  display: flex; 
+  align-items: center; 
+}#image {
+  width: 250px; 
+  margin-right: 10px;
+  margin-left: 10px;
+}
+  </style>
+
+  <title>URL Shortener</title>
+  <link rel="stylesheet" href="./style/style.css">
+</head>
+<body>
+  <div class="spiral-container">
+    <div class="spiral"></div>
+  </div>
+  <div class="container">
+    <h1>URL Shortener</h1>
+    <p>Shorten your long URLs and make them easy to share.</p>
+  
+    
+    <form id="shorten-form">
+      <input type="text" placeholder="Paste your long URL here" id="url-input">
+      <button type="submit" id="shorten-button">Shorten URL</button>
+    </form>
+    <div id="result-container" style="display: none;">
+      <p id="original-url" class="hidden">Original URL: <span id="original-url-value"></span></p>
+      <h3 id="shortened-url" class="hidden">Shortened URL: <span id="shortened-url-value"></span><button id="copy-button" class="hidden">Copy</button></h3>
+      <div class="parallel-elements">
+        <img id="image" src="./image.jpg" alt="">
+        <div id="qr-code"></div>
+      </div>
+      
+      
+    </div>
+    
+   </div>
+  
+  <footer class="padding_4x" style="margin-top: 100px;">
+    <div class="flex">
+        <section class="flex-content padding_1x">
+            <h3>About</h3>
+            <a href="#" style="color: white;"> Blog</a>
+            <a href="#" style="color: white;">Customers</a>
+            <a href="#" style="color: white;">Our Team</a>
+            <a href="#" style="color: white;">Careers</a>
+            <a href="#" style="color: white;">Integrations</a>
+
+        </section>
+        <section class="flex-content padding_1x">
+            <h3>Download</h3>
+            <a href="#" style="color: white;">Meetings Client</a>
+            <a href="#" style="color: white;"> Rooms Client</a>
+            <a href="#" style="color: white;"> Rooms Controller</a>
+            <a href="#" style="color: white;">Browser Extension</a>
+            <a href="#" style="color: white;">Outlook Plug-in</a>
+        </section>
+        <section class="flex-content padding_1x">
+            <h3>Sales
+            </h3>
+            <a href="#" style="color: white;">1.888.799.9666</a>
+            <a href="#" style="color: white;">Contact Sales</a>
+            <a href="#" style="color: white;">Plans & Pricing</a>
+            <a href="#" style="color: white;">Request a Demo</a>
+            <a href="#" style="color: white;">Webinars and Events</a>
+        </section>
+        <section class="flex-content padding_1x">
+            <h3>Support
+            </h3>
+            <a href="#" style="color: white;">Test Talkies</a>
+            <a href="#" style="color: white;">Account</a>
+            <a href="#" style="color: white;">Support Center</a>
+            <a href="#" style="color: white;">Learning Center</a>
+            <a href="#" style="color: white;">Feedback</a>
+            <a href="#" style="color: white;">Contact Us</a>
+        </section>
+        <section class="flex-content padding_1x">
+            <h3 style="color: white;">Newsletter</h3>
+            <p style="color: white;">You can trust us. we only send promo offers,</p>
+            <fieldset class="fixed_flex">
+
+
+            </fieldset>
+        </section>
+
+    </div>
+    <div class="flex">
+        <section class="flex-content padding_1x">
+            <p>Copyright ©2023 All rights reserved || Talkies - Let's connect</p>
+        </section>
+
+        <section class="flex-content padding_1x">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+        </section>
+    </div>
+</footer>
+  <!-- <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+  
+    
+
+
+
+<script>
+  let spiralInterval;
+
+function startSpiral() {
+  const spiral = document.querySelector('.spiral');
+  const spiralContainer = document.querySelector('.spiral-container');
+
+  // Show the spiral and its container
+  spiral.style.display = 'block';
+  spiralContainer.style.display = 'block';
+
+  let angle = 0;
+  let radius = 10; // Initial radius
+  const centerX = window.innerWidth / 2;
+  const centerY = window.innerHeight / 2;
+
+  spiralInterval = setInterval(() => {
+    const x = centerX + Math.cos(angle) * radius;
+    const y = centerY + Math.sin(angle) * radius;
+
+    spiral.style.left = x + 'px';
+    spiral.style.top = y + 'px';
+
+    angle += 0.1; // Increment angle for the spiral shape
+    radius += 0.1; // Increment radius for the spiral shape
+
+    if (radius > 500) {
+      clearInterval(spiralInterval);
+    }
+  }, 30);
+}
+
+function stopSpiral() {
+  clearInterval(spiralInterval);
+  const spiral = document.querySelector('.spiral');
+  const spiralContainer = document.querySelector('.spiral-container');
+
+  // Hide the spiral and its container
+  spiral.style.display = 'none';
+  spiralContainer.style.display = 'none';
+}
+
+document.getElementById('shorten-form').addEventListener('submit', async function (event) {
+  event.preventDefault();
+  const url = document.getElementById('url-input').value.trim();
+  if (!url) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Oops...',
+      text: 'Please fill the URL box!',
+    });
+    return;
+  }
+
+  try {
+    const response = await fetch('https://calm-pear-perch-garb.cyclic.app/url', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ url }),
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      stopSpiral(); // Stop the spiral animation
+      displayShortenedURL(data.shortId, url, data.qrCode); // Pass the QR code data here
+    } else {
+      console.error('Error:', response.statusText);
+    }
+  } catch (error) {
+    console.error('Error:', error);
+  }
+});
+
+  function displayShortenedURL(shortId, originalURL, qrCodeData) {
+    const resultContainer = document.getElementById('result-container');
+    const originalURLSpan = document.getElementById('original-url-value');
+    const shortenedURLSpan = document.getElementById('shortened-url-value');
+    const copyButton = document.getElementById('copy-button');
+    const qrCodeContainer = document.getElementById('qr-code');
+
+    const shortUrl = `https://calm-pear-perch-garb.cyclic.app/${shortId}`;
+    shortenedURLSpan.textContent = shortUrl;
+
+    if (qrCodeData) {
+      // Show QR code and copy button
+      resultContainer.style.display = 'block';
+      new QRCode(qrCodeContainer, {
+        text: shortUrl, // Use the short URL here
+        width: 200,
+        height: 200
+      });
+    } else {
+      resultContainer.style.display = 'none';
+    }
+
+    originalURLSpan.innerHTML = `<a href="${originalURL}">${originalURL}</a>`;
+    shortenedURLSpan.innerHTML = `<a href="https://calm-pear-perch-garb.cyclic.app/${shortId}">https://cyclic.app/${shortId}</a>`;
+
+    copyButton.addEventListener('click', () => {
+      navigator.clipboard.writeText(shortUrl)
+        .then(() => {
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+
+          Toast.fire({
+            icon: 'success',
+            title: 'Copied to clipboard!'
+          })
+          setTimeout(() => {
+            window.location.href = ("./dashboard.html")
+          }, 3000);
+        })
+        .catch((err) => {
+          console.error('Failed to copy:', err);
+        });
+    });
+    
+  }
+  document.getElementById('shorten-button').addEventListener('click', () => {
+      startSpiral(); // Start the spiral animation when the button is clicked
+    });
+  </script>
+</body>
+</html>

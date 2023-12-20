@@ -1,0 +1,150 @@
+
+    body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f2f2f2;
+}
+
+.container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 30px;
+  text-align: center;
+}#result-container{
+    display: flex;
+    justify-content: space-between;
+}
+
+h1 {
+    font: 900 49px asap,arial;
+    color: #0186da;
+    letter-spacing: -1px;
+    text-shadow: 0 2px 2px #ddd;
+    word-wrap: break-word;
+
+
+  /* font-size: 24px; */
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+#url-input {
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  flex-grow: 1;
+}
+
+#shorten-button {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+#result-container {
+  display: none;
+}
+
+#original-url, #shortened-url {
+  margin-bottom: 5px;
+  /* color: blue; */
+}
+
+#shortened-url-value {
+  font-weight: bold;
+  color: #007bff;
+}
+
+#copy-button {
+  padding: 5px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #eee;
+  color: #333;
+  font-size: 14px;
+  cursor: pointer;
+}#qr-code{
+    margin-left: 65%;
+}#copy-button{
+    padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: 5%;
+}/* Your existing styles */
+
+/* Style for the spiral effect */
+
+
+@media screen and (max-width: 460px) {
+  .container {
+    max-width: 60%; /* Adjust width to fit smaller screens */
+    padding: 15px;
+    margin-left: 1.6%; /* Reduce padding for smaller screens */
+  }
+
+  h1 {
+    font-size: 28px; /* Decrease font size for smaller screens */
+    margin-bottom: 8px; /* Adjust spacing for smaller screens */
+  }
+
+  p {
+    font-size: 14px; /* Adjust paragraph font size */
+    margin-bottom: 8px; /* Adjust spacing for smaller screens */
+  }
+
+  form {
+    flex-direction: column; /* Stack form elements vertically */
+    align-items: stretch; /* Stretch form items */
+  }
+
+  #url-input {
+    margin-bottom: 8px; /* Adjust spacing for smaller screens */
+  }
+
+  #shorten-button {
+    margin-left: 0; /* Adjust button alignment */
+    margin-bottom: 10px; /* Adjust spacing for smaller screens */
+  }
+
+  #copy-button {
+    margin-left: 0; /* Adjust button margin */
+  }
+
+  #qr-code {
+    margin-left: 0; /* Adjust QR code margin */
+  }
+
+  #result-container {
+    display: block; /* Ensure result container is visible */
+  }
+
+  #result-container,
+  #original-url,
+  #shortened-url {
+    margin-bottom: 8px; /* Adjust spacing for smaller screens */
+  }
+}
+
+
